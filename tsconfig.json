@@ -5,7 +5,8 @@
         "removeComments": false,
         "preserveConstEnums": true,
         "sourceMap": false,
-        "outDir" : "out"
+        "outDir" : "out",
+        "target": "ES6"
     },
     "include": [
         "src/**/*"

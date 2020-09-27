@@ -1,13 +1,19 @@
 
-export interface Table {
-    get(id: string): Table,
+export type Callback<T> = (t: T) => void;
+
+export interface Ided {
+    id: string;
+}
+
+export interface Table<T extends Ided> {
+    get(id: string): T,
     each(callback: Function): void,
     random(callback: Function): void,
     random(count: number, callback: Function): void,
 }
 
 export interface Tables {
-    get: (id: string) => Table
+    get<T extends Ided>(id: string): Table<T>
 }
 
 export type Event = "click" | "update" | "mouseenter" | "mouseleave" | "keyup";
@@ -27,18 +33,18 @@ export interface Component {
     addClass(clazz: string): void,
     removeClass(clazz: string): void,
     value(): Value,
-    value(newValue: Value) : Value,
+    value(newValue: Value): Value,
     rawValue(): Value,
     virtualValue(): Value,
-    virtualValue(newValue: Value) : Value,
+    virtualValue(newValue: Value): Value,
     text(): string | null,
-    text(replacement: string): string | null,
+    text(replacement: any): string | null,
     visible(): boolean,
-    sheet() : Sheet, // readonly
+    sheet(): Sheet, // readonly
     setChoices(choices: object): void,
     name(): string,
     id(): string
-    
+
 }
 
 export interface Sheet {
@@ -50,4 +56,16 @@ export interface Sheet {
     name(): string
 }
 
-export type log = (...args: string[]) => void
+//Utilities
+export type log = (...args: any[]) => void
+
+export interface Index<T> {
+    [id: string]: T;
+}
+
+
+export type Eachable<T> = T[] | Index<T>;
+
+export interface Each {
+    <T>(data: Eachable<T>, callback: Callback<T>): void
+}
